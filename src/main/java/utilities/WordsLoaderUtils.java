@@ -19,7 +19,7 @@ public class WordsLoaderUtils {
 	public static Stream<String> streamWordsOfSpeceficLengthFromFile(String filename, int length) throws IOException {
 		return Files.lines(Paths.get(filename).toAbsolutePath()).map(word -> word.toLowerCase()).filter(word -> {
 			return word.length() == length;
-		});
+		}).collect(Collectors.toSet()).stream();
 	}
 	
 	private static Map<WordHash, WordNode> getWordsMap(Stream<String> words) {

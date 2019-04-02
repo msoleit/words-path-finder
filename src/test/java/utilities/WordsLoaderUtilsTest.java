@@ -14,7 +14,7 @@ class WordsLoaderUtilsTest {
 
 	@Test
 	void streamWordsOfSpeceficLengthFromFileTest() throws IOException {
-			Stream<String> wordsStream = WordsLoaderUtils.streamWordsOfSpeceficLengthFromFile("src\\main\\java\\resources\\words",3);
+			Stream<String> wordsStream = WordsLoaderUtils.streamWordsOfSpeceficLengthFromFile("src/main/java/resources/words",3);
 			assertNotNull(wordsStream);
 			wordsStream.forEach(word -> assertEquals(word.length(),3));
 	}
@@ -26,7 +26,7 @@ class WordsLoaderUtilsTest {
 	
 	@Test
 	void buildDictionaryTest() throws IOException {
-		assertNotNull(WordsLoaderUtils.buildDictionary("src\\main\\java\\resources\\words", 3));
+		assertNotNull(WordsLoaderUtils.buildDictionary("src/main/java/resources/words", 3));
 	}
 
 }

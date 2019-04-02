@@ -13,19 +13,15 @@ public class WordPathFinder {
 	public static void main(String[] args) {
 		try {
 			String filename = args[0];
+
 			String start = args[1].toLowerCase();
 			String goal = args[2].toLowerCase();
 			if (start.length() != goal.length()) {
 				System.out.println(PATH_NOT_FOUND);
 				return;
 			}
-			long startTime = System.nanoTime();
-
 			WordPath path = new WordsGraph(filename, start, goal).findPath();
-			long endTime = System.nanoTime();
 
-			long duration = (endTime - startTime);
-			System.out.println(duration);
 			System.out.println(path == null ? PATH_NOT_FOUND : path);
 		} catch (IOException ioe) {
 			System.out.println(FILE_NOT_FOUND);
