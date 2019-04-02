@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Set;
 
 import main.java.models.WordHash;
 import main.java.models.WordNode;
@@ -42,6 +45,10 @@ public class PathFinderUtils {
 	}
 	
 	public static WordPath aStar(WordNode start, WordNode goal, Map<WordHash,WordNode> words) {
+		Set<WordNode> closedSet = new HashSet<>();
+		Set<WordNode> openSet = new HashSet<>();
+		Queue<WordNode> pqueue = new PriorityQueue<>();
+		//Map<>
 		return null;
 	}
 

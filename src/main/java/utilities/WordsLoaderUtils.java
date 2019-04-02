@@ -17,13 +17,13 @@ public class WordsLoaderUtils {
 	}
 
 	private static Stream<String> streamWordsOfSpeceficLengthFromFile(String filename, int length) throws IOException {
-		return Files.lines(Paths.get(filename).toAbsolutePath()).filter(word -> {
+		return Files.lines(Paths.get(filename).toAbsolutePath()).map(word -> word.toLowerCase()).filter(word -> {
 			return word.length() == length;
 		});
 	}
 	
 	private static Map<WordHash, WordNode> getWordsMap(Stream<String> words) {
-		return words.map(word -> new WordNode(word, WordsUtils.computeWordHash(word))).collect(Collectors.toMap(node -> node.getHash(), node -> node));
+		return words.map(word -> new WordNode(word)).collect(Collectors.toMap(node -> node.getHash(), node -> node));
 	}
 
 	public static Map<WordHash, WordNode> buildDictionary(String filename, int length) throws IOException {

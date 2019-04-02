@@ -7,10 +7,11 @@ public class WordNode {
 	private String word;
 	private int heurestic;
 	private WordHash hash;
-	public WordNode(String word, WordHash hash) {
+	public WordNode(String word) {
 		// TODO Auto-generated constructor stub
 		this.word = word;
-		this.hash = hash;
+		this.hash = WordsUtils.computeWordHash(word);
+		
 	}
 	
 	@Override
