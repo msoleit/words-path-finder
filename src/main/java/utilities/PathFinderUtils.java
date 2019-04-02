@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
@@ -18,56 +17,70 @@ public class PathFinderUtils {
 	public PathFinderUtils() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	public static WordPath BFS (WordNode start, WordNode goal, Map<WordHash,WordNode> words) {
-		System.out.println(start.getWord());
-		System.out.println(goal.getWord());
+
+	public static WordPath BFS(WordNode start, WordNode goal, Map<WordHash, WordNode> words) {
 		LinkedList<WordNode> queue = new LinkedList<>();
 		HashSet<WordNode> visited = new HashSet<>();
-		HashMap<WordNode, WordNode> pred = new HashMap<>();
+		HashMap<WordNode, WordNode> predecessors = new HashMap<>();
 		visited.add(start);
 		queue.add(start);
-		while(!queue.isEmpty()) {
+		while (!queue.isEmpty()) {
 			WordNode u = queue.poll();
-			System.out.println(u.getWord());
-			for(WordNode adj : WordsUtils.getAdjacentWords(u, words)) {
-				System.out.println(adj.getWord());
-				if(!visited.contains(adj)) {
+			for (WordNode adj : WordsUtils.getAdjacentWords(u, words)) {
+				if (!visited.contains(adj)) {
 					visited.add(adj);
-					pred.put(adj, u);
+					predecessors.put(adj, u);
 					queue.add(adj);
-					if(adj.equals(goal)) return constructPath(start, goal, pred);
+					if (adj.equals(goal))
+						return constructPath(start, goal, predecessors);
 				}
 			}
 		}
 		return null;
-		
+
 	}
-	
-	public static WordPath aStar(WordNode start, WordNode goal, Map<WordHash,WordNode> words) {
+
+	public static WordPath aStar(WordNode start, WordNode goal, Map<WordHash, WordNode> words) {
 		Set<WordNode> closedSet = new HashSet<>();
 		Set<WordNode> openSet = new HashSet<>();
 		Queue<WordNode> pqueue = new PriorityQueue<>();
-		//Map<>
+		HashMap<WordNode, WordNode> predecessors = new HashMap<>();
+		openSet.add(start);
+		pqueue.add(start);
+		start.setgScore(0);
+		start.setfScore(start.getHeuristicCostEstimateFrom(goal));
+		while (!openSet.isEmpty()) {
+			WordNode current = pqueue.poll();
+			if (current.equals(goal))
+				return constructPath(start, goal, predecessors);
+			openSet.remove(current);
+			closedSet.add(current);
+			for (WordNode adj : WordsUtils.getAdjacentWords(current, words)) {
+				if (!closedSet.contains(adj)) {
+					int tentativeGScore = current.getgScore() + 1;
+					if (!openSet.contains(adj)) {
+						openSet.add(adj);
+						pqueue.add(adj);
+					} else if (tentativeGScore >= adj.getgScore()) {
+						continue;
+					}
+
+					predecessors.put(adj, current);
+					adj.setgScore(tentativeGScore);
+					adj.setfScore(adj.getgScore() + adj.getHeuristicCostEstimateFrom(goal));
+				}
+			}
+		}
 		return null;
 	}
 
-	private static WordPath constructPath(WordNode start, WordNode goal, HashMap<WordNode, WordNode> pred) {
+	public static WordPath constructPath(WordNode start, WordNode goal, Map<WordNode, WordNode> predecessors) {
 		WordPath path = new WordPath();
 		path.add(goal);
 		WordNode crawl = goal;
-//		for(Entry<WordNode, WordNode> e : pred.entrySet()) {
-//			System.out.println(e.getKey().getWord());
-//			System.out.println(e.getValue().getWord());
-//		}
-//		System.out.println(" ");
-//		System.out.println(crawl.getWord());
-//		System.out.println(pred.containsKey(crawl));
-		while(pred.containsKey(crawl)) {
-//			System.out.println("yes");
-			path.add(pred.get(crawl));
-			crawl = pred.get(crawl);
-//			System.out.println(crawl.getWord());
+		while (predecessors.containsKey(crawl)) {
+			path.add(predecessors.get(crawl));
+			crawl = predecessors.get(crawl);
 		}
 		return path;
 	}

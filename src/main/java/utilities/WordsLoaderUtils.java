@@ -16,7 +16,7 @@ public class WordsLoaderUtils {
 		// TODO Auto-generated constructor stub
 	}
 
-	private static Stream<String> streamWordsOfSpeceficLengthFromFile(String filename, int length) throws IOException {
+	public static Stream<String> streamWordsOfSpeceficLengthFromFile(String filename, int length) throws IOException {
 		return Files.lines(Paths.get(filename).toAbsolutePath()).map(word -> word.toLowerCase()).filter(word -> {
 			return word.length() == length;
 		});

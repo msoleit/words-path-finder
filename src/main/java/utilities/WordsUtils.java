@@ -2,8 +2,8 @@ package main.java.utilities;
 
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+
 import main.java.models.WordHash;
 import main.java.models.WordNode;
 
@@ -16,7 +16,9 @@ public class WordsUtils {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static int hammingDistance(String start, String end) {
+	public static int hammingDistance(String start, String end) throws IllegalArgumentException {
+		if (start.length() != end.length())
+			throw new IllegalArgumentException("The two strings must be of equal length");
 		int hammingDistance = 0;
 		for (int i = 0; i < start.length(); i++) {
 			if (start.charAt(i) != end.charAt(i)) {
@@ -41,6 +43,8 @@ public class WordsUtils {
 		return new WordHash(hash1, hash2);
 	}
 
+	// for debugging with small word lengths, for longer than 6 chars the reverse is
+	// not right
 	public static String getWordFromHash(WordHash hash) {
 		StringBuilder sb = new StringBuilder();
 		long remainder = hash.getHash1();
@@ -53,11 +57,6 @@ public class WordsUtils {
 
 	public static Set<WordNode> getAdjacentWords(WordNode u, Map<WordHash, WordNode> words) {
 		Set<WordNode> adjacentWords = new HashSet<>();
-		for(Entry<WordHash, WordNode> e : words.entrySet()) {
-			System.out.println(e.getKey());
-			System.out.println(e.getValue().getWord());
-		}
-		System.out.println(" ");
 		int pow1 = 1;
 		int pow2 = 1;
 		for (char c : u.getWord().toCharArray()) {
@@ -65,10 +64,7 @@ public class WordsUtils {
 				int hash1 = u.getHash().getHash1() + i * pow1;
 				int hash2 = u.getHash().getHash2() + i * pow2;
 				WordHash wh = new WordHash(hash1, hash2);
-				System.out.println(wh);
-				System.out.println(getWordFromHash(wh));
 				if (i != 0 && words.containsKey(wh)) {
-					System.out.println("yes");
 					adjacentWords.add(words.get(wh));
 				}
 			}

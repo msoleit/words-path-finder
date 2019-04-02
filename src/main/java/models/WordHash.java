@@ -2,8 +2,6 @@ package main.java.models;
 
 import java.util.Objects;
 
-import main.java.utilities.WordsUtils;
-
 public class WordHash {
 	private int hash1;
 	private int hash2;
@@ -15,17 +13,19 @@ public class WordHash {
 
 	@Override
 	public boolean equals(Object other) {
-		if(other == this) return true;
-		if(!(other instanceof WordHash)) return false;
+		if (other == this)
+			return true;
+		if (!(other instanceof WordHash))
+			return false;
 		WordHash casted = (WordHash) other;
 		return this.getHash1() == casted.getHash1() && this.getHash2() == casted.getHash2();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.getHash1(), this.getHash2());
 	}
-	
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.valueOf(getHash1()));

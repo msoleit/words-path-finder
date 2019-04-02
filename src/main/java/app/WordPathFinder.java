@@ -1,16 +1,11 @@
 package main.java.app;
 
 import java.io.IOException;
-import java.lang.ArrayIndexOutOfBoundsException;
-import java.util.HashMap;
 
-import main.java.models.WordHash;
-import main.java.models.WordNode;
 import main.java.models.WordPath;
 import main.java.models.WordsGraph;
-import main.java.utilities.WordsLoaderUtils;
 
-public class WordPaths {
+public class WordPathFinder {
 	private static final String PATH_NOT_FOUND = "No possible path between the two words";
 	private static final String FILE_NOT_FOUND = "File provided is not valid or can not be read";
 	private static final String MISSING_ARGUMENTS = "Required arguments are missing";
@@ -22,8 +17,15 @@ public class WordPaths {
 			String goal = args[2].toLowerCase();
 			if (start.length() != goal.length()) {
 				System.out.println(PATH_NOT_FOUND);
+				return;
 			}
+			long startTime = System.nanoTime();
+
 			WordPath path = new WordsGraph(filename, start, goal).findPath();
+			long endTime = System.nanoTime();
+
+			long duration = (endTime - startTime);
+			System.out.println(duration);
 			System.out.println(path == null ? PATH_NOT_FOUND : path);
 		} catch (IOException ioe) {
 			System.out.println(FILE_NOT_FOUND);
