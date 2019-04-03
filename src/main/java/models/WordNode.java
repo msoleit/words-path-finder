@@ -5,11 +5,12 @@ import main.java.utilities.WordsUtils;
 public class WordNode implements Comparable<WordNode> {
 
 	private String word;
-	private int heurestic;
-	private int gScore;
-	private int fScore;
 	private WordHash hash;
 
+	//for A*
+	private int gScore;
+	private int fScore;
+	
 	public WordNode(String word) {
 		// TODO Auto-generated constructor stub
 		this.word = word;
@@ -35,14 +36,6 @@ public class WordNode implements Comparable<WordNode> {
 
 	public String getWord() {
 		return word;
-	}
-
-	public int getHeurestic() {
-		return heurestic;
-	}
-
-	public void setHeurestic(int heurestic) {
-		this.heurestic = heurestic;
 	}
 
 	public WordHash getHash() {
